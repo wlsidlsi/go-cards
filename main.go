@@ -6,59 +6,18 @@ import (
 	"example.com/pkg/deck"
 )
 
-func War() {
-	// creates a new deck
-	deck := deck.NewDeck()
-
-	// shuffles the deck
-	deck.Shuffle()
-	fmt.Println()
-
-	fmt.Println("Warrrrrrrr!!!!!!")
-
-	fmt.Println()
-
-	// picks a card from the deck
-	// prints "Your Card is {Card}"
-	card, err := deck.PickACard()
-	if err != nil {
-		fmt.Println("Error:", err)
-	} else {
-		fmt.Println("Your Card is", deck.Title((card)))
-	}
-	fmt.Println()
-
-	// shuffles the deck
-	deck.Shuffle()
-	fmt.Println()
-
-	// picks a card from the deck
-	// prints "Your Card is {Card}"
-	card, err = deck.PickACard()
-	if err != nil {
-		fmt.Println("Error:", err)
-	} else {
-		fmt.Println("My Card is", deck.Title(card))
-	}
-
-	// iterates over teh remaining cards in the deck
-	// prints "Remaining Cards: {Number}"
-	for deck.RemainingCards() > 0 {
-		card, err = deck.PickACard()
-		if err != nil {
-			fmt.Println(err)
-		} else {
-			fmt.Println("My Card", deck.Title(card), deck.IdentifyCard(deck.Title(card)))
-		}
-	}
-}
-
 func main() {
 	// creates a new deck
-	deck := deck.NewDeck()
+	deck1, err := deck.LoadGzip("./deck.bin.gz")
+	if err != nil {
+		fmt.Println("Error Loadig:", err)
+		deck1 = deck.NewDeck()
+	} else {
+		fmt.Println(deck1.RemainingCards())
+	}
 
 	// shuffles the deck
-	deck.Shuffle()
+	deck1.Shuffle()
 	fmt.Println()
 
 	fmt.Println("Warrrrrrrr!!!!!!")
@@ -67,35 +26,40 @@ func main() {
 
 	// picks a card from the deck
 	// prints "Your Card is {Card}"
-	card, err := deck.PickACard()
+	card, err := deck1.PickACard()
 	if err != nil {
 		fmt.Println("Error:", err)
 	} else {
-		fmt.Println("Your Card is", deck.Title((card)))
+		fmt.Println("Your Card is", deck1.Title((card)))
 	}
 	fmt.Println()
 
 	// shuffles the deck
-	deck.Shuffle()
+	deck1.Shuffle()
 	fmt.Println()
 
 	// picks a card from the deck
 	// prints "Your Card is {Card}"
-	card, err = deck.PickACard()
+	card, err = deck1.PickACard()
 	if err != nil {
 		fmt.Println("Error:", err)
 	} else {
-		fmt.Println("My Card is", deck.Title(card))
+		fmt.Println("My Card is", deck1.Title(card))
+	}
+
+	_, err = deck1.SaveGzip()
+	if err != nil {
+		fmt.Println(err)
 	}
 
 	// iterates over teh remaining cards in the deck
 	// prints "Remaining Cards: {Number}"
-	for deck.RemainingCards() > 0 {
-		card, err = deck.PickACard()
+	for deck1.RemainingCards() > 0 {
+		card, err = deck1.PickACard()
 		if err != nil {
 			fmt.Println(err)
 		} else {
-			fmt.Println("My Card", deck.Title(card), deck.IdentifyCard(deck.Title(card)))
+			fmt.Println("My Card", deck1.Title(card), deck1.IdentifyCard(deck1.Title(card)))
 		}
 	}
 }
