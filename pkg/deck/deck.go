@@ -83,6 +83,20 @@ func (d *Deck) PickACard() (card *Card, err error) {
 	return card, nil
 }
 
+// Deal deals a number of cards from the deck
+func (d *Deck) Deal(n int) ([]*Card, error) {
+	pickedCards := make([]*Card, 0, n)
+	for n > 0 {
+		card, err := d.PickACard()
+		if err != nil {
+			return nil, err
+		}
+		pickedCards = append(pickedCards, card)
+		n--
+	}
+	return pickedCards, nil
+}
+
 // IdentifyCard identifies the card by its suit and ID
 func (d *Deck) IdentifyCard(title string) map[string]interface{} {
 	cardTitle, suit := parseTitle(title)
