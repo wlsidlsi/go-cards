@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+option go_package = "./pkg/protos";
+
+package protos;
+
+message Card {
+  int32 ID = 1;
+  string suit = 2;
+}
